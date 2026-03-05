@@ -1,6 +1,7 @@
 <?php
 // Enhanced test taking with persistent shuffling, section navigation, and advanced features
 session_start();
+require_once __DIR__ . '/../encrypt_helper.php';
 
 // Set timezone to Indian Standard Time
 date_default_timezone_set('Asia/Kolkata');
@@ -218,7 +219,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     $studentId = $_SESSION['student_id'];
-    $hostedTestId = isset($_GET['test_id']) ? (int)$_GET['test_id'] : 0;
+    $hostedTestId = isset($_GET['test_id']) ? decryptId($_GET['test_id']) : 0;
+    if (!$hostedTestId) $hostedTestId = 0;
 
     if ($hostedTestId <= 0) {
         jsonResponse([
@@ -430,7 +432,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             jsonResponse([
                 'success' => true,
                 'message' => 'Test submitted successfully',
-                'redirect_url' => 'test_report.php?test_id=' . $hostedTestId,
+                'redirect_url' => 'test_report.php?test_id=' . urlencode(encryptId($hostedTestId)),
                 'total_score' => $result['total_score'],
                 'answers_processed' => $result['answers_processed']
             ]);
@@ -460,7 +462,8 @@ $studentName = $_SESSION['student_name'] ?? 'Student';
 $studentRegisterNumber = $_SESSION['register_number'] ?? '';
 
 // Get test ID from URL
-$hostedTestId = isset($_GET['test_id']) ? (int)$_GET['test_id'] : 0;
+$hostedTestId = isset($_GET['test_id']) ? decryptId($_GET['test_id']) : 0;
+if (!$hostedTestId) $hostedTestId = 0;
 
 if (!$hostedTestId) {
     header("Location: test_list.php");
@@ -526,7 +529,7 @@ $hasSubmitted = !empty($testData['submit_time']);
 
 if ($hasSubmitted) {
     // Test already submitted
-    header("Location: test_report.php?test_id=" . $hostedTestId);
+    header("Location: test_report.php?test_id=" . urlencode(encryptId($hostedTestId)));
     exit();
 } elseif (!$isTestActive && !$hasStarted) {
     // Test is not active and student hasn't started yet
@@ -568,7 +571,7 @@ if ($currentDateTime > $allowedEndDateTime && !$hasSubmitted) {
     } catch (Exception $e) {
         // no-op
     }
-    header("Location: test_report.php?test_id=" . $hostedTestId);
+    header("Location: test_report.php?test_id=" . urlencode(encryptId($hostedTestId)));
     exit();
 }
 
@@ -1826,7 +1829,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 formData.append('record_violation', '1');
                 formData.append('reason', reason);
 
-                const response = await fetch('take_test.php?test_id=<?php echo $hostedTestId; ?>', {
+                const response = await fetch('take_test.php?test_id=<?php echo urlencode(encryptId($hostedTestId)); ?>', {
                     method: 'POST',
                     body: formData
                 });
@@ -1954,7 +1957,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     const formData = new FormData();
                     formData.append('heartbeat', '1');
 
-                    const response = await fetch('take_test.php?test_id=<?php echo $hostedTestId; ?>', {
+                    const response = await fetch('take_test.php?test_id=<?php echo urlencode(encryptId($hostedTestId)); ?>', {
                         method: 'POST',
                         body: formData
                     });
@@ -2089,12 +2092,12 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 formData.append(input.name, input.value);
             });
 
-            fetch('take_test.php?test_id=<?php echo $hostedTestId; ?>', {
+            fetch('take_test.php?test_id=<?php echo urlencode(encryptId($hostedTestId)); ?>', {
                 method: 'POST',
                 body: formData
             })
             .finally(() => {
-                window.location.href = 'test_report.php?test_id=<?php echo $hostedTestId; ?>';
+                window.location.href = 'test_report.php?test_id=<?php echo urlencode(encryptId($hostedTestId)); ?>';
             });
         }
         
@@ -2220,7 +2223,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 formData.append('auto_save', '1');
                 formData.append(`answers[${questionId}]`, answer);
                 
-                fetch('take_test.php?test_id=<?php echo $hostedTestId; ?>', {
+                fetch('take_test.php?test_id=<?php echo urlencode(encryptId($hostedTestId)); ?>', {
                     method: 'POST',
                     body: formData
                 })
@@ -2266,7 +2269,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     formData.append(input.name, input.value);
                 });
                 
-                fetch('take_test.php?test_id=<?php echo $hostedTestId; ?>', {
+                fetch('take_test.php?test_id=<?php echo urlencode(encryptId($hostedTestId)); ?>', {
                     method: 'POST',
                     body: formData
                 })
@@ -2274,7 +2277,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 .then(data => {
                     if (data.success) {
                         if (document.exitFullscreen) document.exitFullscreen();
-                        window.location.href = 'test_report.php?test_id=<?php echo $hostedTestId; ?>';
+                        window.location.href = 'test_report.php?test_id=<?php echo urlencode(encryptId($hostedTestId)); ?>';
                     } else {
                         alert(data.message || 'Error submitting test');
                         submissionInProgress = false;

@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/../encrypt_helper.php';
 
 // Set timezone to Indian Standard Time
 date_default_timezone_set('Asia/Kolkata');
@@ -580,7 +581,7 @@ function getButtonStatus($testDate, $startTime, $endTime, $studentStartTime) {
                           <i class="fas fa-check-circle"></i> Test Already Taken
                         </button>
                       <?php elseif ($buttonStatus === 'active'): ?>
-                        <a href="take_test.php?test_id=<?php echo $test['hosted_test_id']; ?>" class="btn btn-primary btn-take-test">
+                        <a href="take_test.php?test_id=<?php echo urlencode(encryptId($test['hosted_test_id'])); ?>" class="btn btn-primary btn-take-test">
                           <i class="fas fa-play-circle"></i> Take Test Now
                         </a>
                       <?php else: ?>
@@ -703,7 +704,7 @@ function getButtonStatus($testDate, $startTime, $endTime, $studentStartTime) {
                             Submitted: <?php echo date('d M Y, h:i A', strtotime($test['student_submit_time'])); ?>
                           </div>
                         <?php endif; ?>
-                        <a href="test_report.php?test_id=<?php echo $test['hosted_test_id']; ?>" class="btn btn-outline-primary btn-view-report">
+                        <a href="test_report.php?test_id=<?php echo urlencode(encryptId($test['hosted_test_id'])); ?>" class="btn btn-outline-primary btn-view-report">
                           <i class="fas fa-chart-line"></i> <?php echo ($test['show_answers'] === 'yes') ? 'View Report & Answers' : 'View Report'; ?>
                         </a>
                       <?php endif; ?>

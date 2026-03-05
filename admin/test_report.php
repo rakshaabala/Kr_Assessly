@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/../encrypt_helper.php';
 
 // Check if user is logged in as faculty (admin in this case)
 if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'faculty') {
@@ -35,8 +36,15 @@ function sanitizeInput($input) {
 
 $pdo = getDBConnection();
 
-// Get test ID from URL if specified
-$hostedTestId = isset($_GET['test_id']) ? (int)$_GET['test_id'] : null;
+// Get test ID from URL if specified (encrypted)
+$hostedTestId = null;
+if (isset($_GET['test_id'])) {
+    $hostedTestId = decryptId($_GET['test_id']);
+    if ($hostedTestId === null) {
+        header("Location: test_report.php");
+        exit();
+    }
+}
 
 // Fetch all tests across the system for admin
 if ($hostedTestId) {
@@ -456,7 +464,7 @@ if ($hostedTestId) {
 	                          <td><?php echo $report['avg_score'] ? number_format($report['avg_score'], 2) : '0.00'; ?></td>
 	                          <td><?php echo $report['highest_score'] ? number_format($report['highest_score'], 2) : '0.00'; ?></td>
                           <td>
-                            <button class="btn-view-details" onclick="window.location.href='test_report.php?test_id=<?php echo $report['hosted_test_id']; ?>'">
+                            <button class="btn-view-details" onclick="window.location.href='test_report.php?test_id=<?php echo urlencode(encryptId($report['hosted_test_id'])); ?>'">
                               <i class="ti-eye"></i> View Details
                             </button>
                           </td>

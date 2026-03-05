@@ -198,7 +198,6 @@ $currentDate = date('d M Y');
       opacity: 0.9;
       margin-bottom: 12px;
     }
-    
     .stat-value {
       font-size: 2.2rem;
       font-weight: 700;
@@ -496,7 +495,7 @@ $currentDate = date('d M Y');
         <footer class="footer" style="background: linear-gradient(90deg, #594ba1ff 0%, #2575fc 100%);color: white;padding: 30px 0;">
           <div class="text-center">
             <span style="font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;font-size: 1rem;color: white;letter-spacing: 0.3px;">
-              © 2025, Designed and Developed by
+              ï¿½ 2025, Designed and Developed by
               <strong style="font-weight: 700;text-transform: uppercase;letter-spacing: 0.8px;color: white; font-style: italic; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">KR ASSESSLY TEAM</strong> - All rights reserved.
             </span>
           </div>

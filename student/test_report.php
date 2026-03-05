@@ -8,6 +8,7 @@ if (!isset($_SESSION['student_id']) || $_SESSION['user_type'] !== 'student') {
 }
 
 require_once __DIR__ . '/../dbconn.php';
+require_once __DIR__ . '/../encrypt_helper.php';
 $pdo = getDBConnection();
 if (!$pdo) {
     die("Database connection failed.");
@@ -24,8 +25,15 @@ $summaryAnswersVisible = 0;
 $summaryAvgPercent = 0;
 $summaryBestPercent = 0;
 
-// Get test ID from URL if specified
-$hostedTestId = isset($_GET['test_id']) ? (int)$_GET['test_id'] : null;
+// Get test ID from URL if specified (encrypted)
+$hostedTestId = null;
+if (isset($_GET['test_id'])) {
+    $hostedTestId = decryptId($_GET['test_id']);
+    if ($hostedTestId === null) {
+        header("Location: test_report.php");
+        exit();
+    }
+}
 
 // Fetch test reports for the student
 if ($hostedTestId) {
@@ -636,7 +644,7 @@ if ($hostedTestId) {
                                                 <?php echo number_format((float)$report['total_score'], 2); ?> / <?php echo number_format((float)$report['possible_marks'], 2); ?>
                                             </div>
                                             <div style="font-weight: 700; color: #667eea;"><?php echo number_format((float)$report['score_percent'], 2); ?>%</div>
-                                            <a href="test_report.php?test_id=<?php echo $report['hosted_test_id']; ?>" class="btn btn-primary btn-sm mt-2">
+                                            <a href="test_report.php?test_id=<?php echo urlencode(encryptId($report['hosted_test_id'])); ?>" class="btn btn-primary btn-sm mt-2">
                                                 <i class="fas fa-eye"></i> View Details
                                             </a>
                                         </div>
