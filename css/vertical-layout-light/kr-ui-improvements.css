@@ -1,0 +1,244 @@
+/* Global UI improvements for KR Assessly */
+
+:root {
+  --kr-bg: #f4f7fc;
+  --kr-surface: #ffffff;
+  --kr-surface-soft: #f8faff;
+  --kr-border: #e3e9f3;
+  --kr-text: #243044;
+  --kr-text-muted: #6a7280;
+  --kr-primary: #2a66d9;
+  --kr-primary-2: #1f4fb1;
+  --kr-success: #1f8f5f;
+  --kr-warning: #c78100;
+  --kr-danger: #c63c3c;
+  --kr-shadow: 0 10px 28px rgba(24, 42, 77, 0.08);
+  --kr-shadow-soft: 0 4px 12px rgba(24, 42, 77, 0.06);
+}
+
+body {
+  color: var(--kr-text);
+  background-color: var(--kr-bg);
+  background-image:
+    radial-gradient(900px 380px at -5% -8%, rgba(42, 102, 217, 0.08), rgba(42, 102, 217, 0)),
+    radial-gradient(760px 300px at 105% 0%, rgba(31, 143, 95, 0.06), rgba(31, 143, 95, 0));
+  background-attachment: fixed;
+}
+
+.content-wrapper {
+  padding-top: 1.35rem;
+}
+
+.navbar.fixed-top {
+  background: rgba(255, 255, 255, 0.86);
+  border-bottom: 1px solid var(--kr-border);
+  box-shadow: 0 8px 24px rgba(17, 35, 66, 0.07);
+  backdrop-filter: blur(8px);
+}
+
+.navbar .navbar-brand-wrapper {
+  border-right: 1px solid var(--kr-border);
+}
+
+.sidebar {
+  border-right: 1px solid var(--kr-border);
+  box-shadow: 4px 0 20px rgba(24, 42, 77, 0.05);
+}
+
+.sidebar .nav .nav-item .nav-link {
+  margin: 4px 10px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar .nav .nav-item .nav-link:hover {
+  background: #eef4ff;
+  color: var(--kr-primary);
+  transform: translateX(2px);
+}
+
+.sidebar .nav .nav-item.active > .nav-link,
+.sidebar .nav .nav-item .nav-link.active {
+  color: #ffffff;
+  background: linear-gradient(120deg, var(--kr-primary), var(--kr-primary-2));
+  box-shadow: 0 8px 18px rgba(42, 102, 217, 0.28);
+}
+
+.card,
+.report-card,
+.data-card,
+.recent-tests-card,
+.hosting-form,
+.section-card,
+.question-card,
+.hosted-test-card,
+.student-selection {
+  border: 1px solid var(--kr-border);
+  border-radius: 14px !important;
+  box-shadow: var(--kr-shadow-soft);
+}
+
+.card:hover,
+.report-card:hover,
+.data-card:hover,
+.hosted-test-card:hover {
+  box-shadow: var(--kr-shadow);
+}
+
+.section-title,
+.card-title,
+h3.font-weight-bold {
+  letter-spacing: 0.01em;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  background: #f5f8ff;
+  color: #3a4456;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+  border-top: none;
+  border-bottom: 1px solid var(--kr-border);
+}
+
+.table tbody td,
+.table tbody th {
+  border-color: #edf1f7;
+  vertical-align: middle;
+}
+
+.table tbody tr:hover {
+  background: var(--kr-surface-soft);
+}
+
+.table-responsive {
+  border-radius: 12px;
+}
+
+.form-control,
+select.form-control,
+.custom-select {
+  border: 1px solid #dbe3f0;
+  border-radius: 10px;
+  min-height: 40px;
+  color: var(--kr-text);
+  box-shadow: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus,
+select.form-control:focus,
+.custom-select:focus {
+  border-color: #87a9ed;
+  box-shadow: 0 0 0 0.2rem rgba(42, 102, 217, 0.16);
+}
+
+.btn,
+.btn-action,
+.btn-view-details,
+.btn-download,
+.btn-primary-custom,
+.btn-secondary-custom,
+.btn-move-students,
+.btn-clear-all {
+  border-radius: 10px !important;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: transform 0.16s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.btn:hover,
+.btn-action:hover,
+.btn-view-details:hover,
+.btn-download:hover,
+.btn-primary-custom:hover,
+.btn-secondary-custom:hover,
+.btn-move-students:hover,
+.btn-clear-all:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active,
+.btn-action:active,
+.btn-view-details:active,
+.btn-download:active,
+.btn-primary-custom:active,
+.btn-secondary-custom:active,
+.btn-move-students:active,
+.btn-clear-all:active {
+  transform: translateY(0);
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 0.44rem 0.7rem;
+  font-weight: 700;
+}
+
+.badge-success {
+  background-color: rgba(31, 143, 95, 0.13);
+  color: var(--kr-success);
+}
+
+.badge-warning {
+  background-color: rgba(199, 129, 0, 0.15);
+  color: var(--kr-warning);
+}
+
+.badge-danger {
+  background-color: rgba(198, 60, 60, 0.14);
+  color: var(--kr-danger);
+}
+
+.badge-secondary {
+  background-color: rgba(96, 108, 125, 0.14);
+  color: #5f6b80;
+}
+
+.dropdown-menu {
+  border-radius: 10px;
+  border: 1px solid var(--kr-border);
+  box-shadow: var(--kr-shadow-soft);
+}
+
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8d4ea;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aebfdd;
+}
+
+@media (max-width: 991px) {
+  .content-wrapper {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .card,
+  .report-card,
+  .hosting-form,
+  .section-card,
+  .question-card {
+    border-radius: 12px !important;
+  }
+
+  .sidebar .nav .nav-item .nav-link {
+    margin: 3px 6px;
+  }
+}
